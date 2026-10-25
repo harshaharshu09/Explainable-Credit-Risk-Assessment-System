@@ -2,7 +2,7 @@
 
 A Streamlit-based machine-learning prototype for exploring loan-default risk and model explainability.
 
-[![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/App-Streamlit-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
 [![ML](https://img.shields.io/badge/ML-scikit--learn%20%7C%20LightGBM-orange)](https://scikit-learn.org/)
 [![Explainability](https://img.shields.io/badge/XAI-SHAP-6236FF)](https://shap.readthedocs.io/)
@@ -97,7 +97,6 @@ Feature-importance CSV and plot
 ├── app.py
 ├── README.md
 ├── requirements.txt
-├── runtime.txt
 ├── .gitignore
 ├── .streamlit/
 │   └── config.toml
@@ -178,12 +177,13 @@ python src/xai_explanation.py
 
 1. Open [Streamlit Community Cloud](https://share.streamlit.io/).
 2. Sign in and connect your GitHub account, if asked.
-3. Select **Create app** and choose repository `harshaharshu09/Explainable-Credit-Risk-Assessment-System`.
+3. Choose **Create app** and select repository `harshaharshu09/Explainable-Credit-Risk-Assessment-System`.
 4. Select branch `main` and main file path `app.py`.
-5. Select **Deploy** and wait for the build logs to report success.
-6. Open the resulting public app URL and test an assessment. Add that verified URL to the **Live demo** line above.
+5. Open **Advanced settings** and select a Python version compatible with the committed model artifacts and dependencies. The local artifacts were created in the project's Python 3.14 environment; use Python 3.14 if available. If it is not offered, retrain and commit the model/preprocessor artifacts from the Python version selected for deployment.
+6. Select **Deploy**. Wait for the build logs to finish, open the public URL, and test a sample assessment.
+7. Once published, add the verified URL to the **Live demo** line near the top of this README.
 
-The repository includes a dependency list and Python 3.11 runtime file. Hosting still requires the repository owner to authorize and launch the deployment. If the build fails, inspect deployment logs before changing dependencies.
+Streamlit Community Cloud's Python version is selected in the deployment settings; `runtime.txt` is not used for this setting. The repository includes `requirements.txt` and a Streamlit configuration file, but the repository owner must authorize and start the deployment.
 
 ## Dependencies
 
