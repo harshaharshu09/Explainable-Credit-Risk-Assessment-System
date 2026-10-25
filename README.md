@@ -1,6 +1,6 @@
 # Explainable Credit Risk Assessment System
 
-An end-to-end machine learning project that demonstrates credit-default risk classification, model comparison, and model explainability through an interactive Streamlit application.
+An end-to-end machine learning project for credit-default risk classification, model comparison, and explainable AI using an interactive Streamlit application.
 
 <p align="left">
   <img src="https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white" alt="Python" />
@@ -10,165 +10,221 @@ An end-to-end machine learning project that demonstrates credit-default risk cla
   <img src="https://img.shields.io/badge/Status-Educational%20Prototype-lightgrey" alt="Educational prototype" />
 </p>
 
-> **Important:** This is an educational prototype built with a manually created synthetic dataset of just 25 records. Its five-row test set is far too small to support reliable performance claims. Do not use this application for real loan approvals, underwriting, or other consequential financial decisions.
+> **Important:** This is an educational prototype built with a manually created synthetic dataset of 25 records. The five-row test set is too small to support reliable performance claims. The application should not be used for real loan approvals, underwriting, or other consequential financial decisions.
 
 ## Live Demo
 
 **[Open the Streamlit App](https://harshaharshu09-explainable-credit-risk-assessment-sy-app-lbhfz0.streamlit.app/)**
 
-The app accepts sample applicant and loan details, applies the saved preprocessing pipeline, predicts a default-risk class with a trained SVM model, and displays a demonstration decision and global SHAP feature-importance chart.
+The application accepts sample applicant and loan details, applies the saved preprocessing pipeline, predicts a default-risk class using the trained SVM model, and displays a demonstration loan decision together with global SHAP feature importance.
 
 ## Project Overview
 
-Credit-risk assessment is a classification problem in which applicant information is used to estimate whether a record belongs to a default or non-default class. This project demonstrates a complete machine-learning workflow: preparing data, training and comparing classifiers, evaluating model outputs, saving reusable artifacts, serving predictions through Streamlit, and examining global feature importance with SHAP.
+Credit-risk assessment is a binary classification problem in which applicant and loan information is used to estimate whether an application belongs to a default or non-default class.
 
-The current web application uses **Support Vector Machine (SVM)** for inference. K-Nearest Neighbors (KNN), Decision Tree, and LightGBM are included for model comparison.
+This project demonstrates an end-to-end machine-learning workflow:
+
+- Data preparation and preprocessing
+- Train/test splitting
+- Multiple classification models
+- Model evaluation and comparison
+- Model artifact persistence with Joblib
+- Interactive prediction through Streamlit
+- Explainable AI using SHAP
+- Global feature-importance visualization
+
+The current Streamlit application uses **Support Vector Machine (SVM)** for inference. **K-Nearest Neighbors (KNN), Decision Tree, and LightGBM** are included for model comparison.
 
 ## Key Features
 
-- Interactive Streamlit interface for entering applicant and loan information
+- Interactive Streamlit credit-risk assessment form
 - Numeric feature scaling with `StandardScaler`
 - Categorical feature encoding with `OneHotEncoder`
-- Reusable preprocessing and saved model artifacts
-- Binary default-risk prediction using SVM
-- Demonstration approval/rejection mapping for predicted classes
-- Model comparison across SVM, KNN, Decision Tree, and LightGBM
-- Evaluation scripts for accuracy, precision, recall, F1-score, and confusion matrix
-- Global SHAP feature-importance analysis and visualizations
-- Local setup and reproducible script-based workflow
+- Reusable saved preprocessing pipeline
+- SVM-based binary credit-risk prediction
+- Demonstration approval/rejection mapping
+- Comparison of SVM, KNN, Decision Tree, and LightGBM
+- Accuracy, precision, recall, F1-score, and confusion-matrix evaluation
+- Global SHAP feature-importance analysis
+- SHAP visualizations stored in the `data/` directory
+- Local reproducible training and inference workflow
 
 ## Technology Stack
 
 | Area | Tools |
 |---|---|
-| Language | Python |
+| Programming | Python |
 | Data processing | Pandas, NumPy |
 | Machine learning | scikit-learn, LightGBM |
 | Preprocessing | StandardScaler, OneHotEncoder |
 | Explainable AI | SHAP |
 | Visualization | Matplotlib, Streamlit charts |
-| Web interface | Streamlit |
+| Web application | Streamlit |
 | Model persistence | Joblib |
 
-Dependency version ranges are documented in `requirements.txt`.
+Dependency versions are defined in `requirements.txt`.
 
 ## Applicant Input Features
 
-The demo form accepts the following fields:
+The Streamlit application accepts the following inputs:
 
 | Feature | Description |
 |---|---|
 | Age | Applicant age in years |
-| Monthly income | Income value in the sample dataset |
-| Loan amount | Requested loan amount |
-| Loan term | Requested repayment duration in months |
-| Credit score | Applicant credit-score value |
-| Existing debt | Existing debt value |
-| Employment years | Years of employment |
-| Loan purpose | Personal, Home, Business, Education, or Auto |
-| Home ownership | Rent, Own, or Mortgage |
+| Monthly Income | Income value used by the sample dataset |
+| Loan Amount | Requested loan amount |
+| Loan Term | Requested repayment duration in months |
+| Credit Score | Applicant credit-score value |
+| Existing Debt | Existing debt value |
+| Employment Years | Years of employment |
+| Loan Purpose | Personal, Home, Business, Education, or Auto |
+| Home Ownership | Rent, Own, or Mortgage |
 
-The repository's synthetic data does not specify a verified currency or a real-world data source; monetary values are for demonstration only.
+The repository uses synthetic data, and the monetary fields do not represent a verified real-world currency or lending dataset.
 
-## How It Works
+## System Workflow
 
 ```text
-Synthetic credit-risk dataset
-            |
-            v
-   Separate features and target
-            |
-            v
-     Stratified train/test split
-            |
-            v
-       Preprocessing pipeline
-      /                     \\
-     v                       v
-Scale numeric data     Encode categories
-      \\                     /
-       v                   v
-        Processed features
+                         CREDIT RISK ASSESSMENT SYSTEM
+
+        Synthetic Credit-Risk Dataset
+                    |
+                    v
+          Feature / Target Split
+                    |
+                    v
+          Stratified Train/Test Split
+                    |
+                    v
+            Data Preprocessing
+             /              \
+            v                v
+   Scale Numeric Data    Encode Categories
+             \              /
+              v            v
+             Processed Features
+                    |
+                    v
+       +-----------------------------+
+       |      Model Training         |
+       +-----------------------------+
+          |       |        |       |
+          v       v        v       v
+         SVM     KNN   Decision   LightGBM
+                         Tree
+          \       |        |       /
+           \      |        |      /
+            +-----+--------+-----+
+                    |
+                    v
+             Model Comparison
+                    |
+                    v
+           Save Model Artifacts
+                    |
+                    v
+             Streamlit Application
+                    |
+                    v
+            Applicant Input Form
+                    |
+                    v
+           Preprocess New Input
+                    |
+                    v
+               SVM Prediction
+                 /       \
+                v         v
+        Risk Classification  Probability
+                |            Output
+                v
+       Demonstration Decision
                 |
                 v
-       Train classification models
-                |
-                v
-       Compare evaluation metrics
-                |
-                v
-       Save model and preprocessor
-                |
-                v
-        Streamlit applicant form
-                |
-                v
-     Transform new applicant input
-                |
-                v
-           SVM prediction
-                |
-       +--------+---------+
-       |                  |
-       v                  v
- Predicted class    Model probability
-       |                  |
-       v                  v
- Demonstration      Displayed model
- loan decision      confidence output
-       |
-       v
- Global SHAP feature-importance chart
+        Global SHAP Explanation
 ```
 
 ### Workflow Details
 
-1. **Load and inspect data:** Read `data/credit_risk.csv` with Pandas. The target column is `default`.
-2. **Split features and target:** Separate applicant attributes (`X`) from the binary target (`y`).
-3. **Create train/test sets:** Use the project's stratified 80/20 split for training and evaluation.
-4. **Preprocess inputs:** Standardize numeric columns and one-hot encode categorical columns using the reusable preprocessing pipeline.
-5. **Train and compare models:** Train SVM, KNN, Decision Tree, and LightGBM classifiers, then compare their evaluation metrics.
-6. **Run application inference:** Load `models/svm_model.pkl` and `models/preprocessor.pkl` in the Streamlit app. Apply the fitted preprocessor to new applicant inputs before prediction.
-7. **Explain model behavior:** Load the saved SHAP feature-importance results and display a global chart for the synthetic test data.
+1. **Load data:** Read `data/credit_risk.csv` using Pandas. The target column is `default`.
+2. **Prepare features:** Separate applicant features (`X`) from the target (`y`).
+3. **Split data:** Use the project's stratified 80/20 train/test split with `random_state=42`.
+4. **Preprocess:** Standardize numeric features and one-hot encode categorical features.
+5. **Train models:** Train SVM, KNN, Decision Tree, and LightGBM classifiers.
+6. **Evaluate models:** Calculate accuracy, precision, recall, F1-score, classification reports, and confusion matrices.
+7. **Save artifacts:** Store trained models and the reusable preprocessor as `.pkl` files.
+8. **Run the application:** Streamlit loads the saved SVM model and preprocessor for new applicant inputs.
+9. **Explain the model:** SHAP analysis generates global feature-importance results and visualization files.
 
 ## Models
 
-| Model | Purpose |
+| Model | Role in the Project |
 |---|---|
-| Support Vector Machine (SVM) | Used by the current Streamlit application |
-| K-Nearest Neighbors (KNN) | Comparison model |
-| Decision Tree | Comparison model |
-| LightGBM | Comparison model |
+| Support Vector Machine (SVM) | Primary model used by the Streamlit application |
+| K-Nearest Neighbors (KNN) | Model comparison |
+| Decision Tree | Model comparison |
+| LightGBM | Model comparison |
 
-Evaluation scripts calculate metrics including accuracy, precision, recall, F1-score, and the confusion matrix. Because the current held-out test set has only five records, individual predictions can change metrics substantially. Do not interpret the current results as evidence of real-world effectiveness.
+The model-comparison script evaluates the saved models on the project's processed test data. Because the test set contains only five records, the resulting metrics are illustrative and should not be treated as evidence of real-world model performance.
 
-## Understanding the Prediction
+## Prediction Logic
 
-The target labels are interpreted in the project as:
+The project uses the following target interpretation:
 
-- `0`: No Default / Low Risk
-- `1`: Default Risk
+- `0` → **No Default / Low Risk**
+- `1` → **Default Risk**
 
-For demonstration, the application maps class `0` to **APPROVED** and class `1` to **REJECTED**. This is a simple prototype rule, not a validated lending policy.
+For demonstration purposes, the Streamlit application maps:
 
-If available, the SVM's probability output is shown as **Prediction Confidence**. It is a model output and is not necessarily calibrated; it must not be treated as a guaranteed repayment probability.
+- **Class 0 → APPROVED**
+- **Class 1 → REJECTED**
 
-## Explainability with SHAP
+This is a prototype rule and is **not a validated lending policy**.
 
-The explainability script calculates global feature importance and saves its results in `data/shap_feature_importance.csv`. Visualization files are stored in `data/`.
+The SVM model also provides a probability-based confidence output. This is a model output and should not be interpreted as a guaranteed repayment probability.
 
-The current dashboard displays **global** importance based on synthetic test data. It does not provide an applicant-specific explanation, prove causation, or establish that a feature should determine a lending outcome.
+## Explainable AI with SHAP
+
+The project uses **SHAP (SHapley Additive exPlanations)** to analyze the trained SVM model.
+
+The explainability script:
+
+1. Loads the processed test data.
+2. Loads the trained SVM model and preprocessing artifact.
+3. Generates SHAP values using a permutation-based explainer.
+4. Calculates mean absolute SHAP importance for each feature.
+5. Saves the feature-importance table to `data/shap_feature_importance.csv`.
+6. Saves the visualizations as PNG files in `data/`.
+
+The current application displays **global feature importance** based on the synthetic test data. It is not an applicant-specific explanation and does not establish causation.
+
+## Visual Results
+
+### SHAP Feature Importance
+
+![SHAP Feature Importance](data/shap_feature_importance.png)
+
+### SHAP Summary Plot
+
+![SHAP Summary Plot](data/shap_summary_plot.png)
+
+These visualizations are generated from the project's current synthetic test data and are intended for demonstration and learning purposes.
 
 ## Project Structure
 
+The following structure matches the files currently committed to the GitHub repository:
+
 ```text
 Explainable-Credit-Risk-Assessment-System/
+│
+├── .gitignore
+├── README.md
 ├── app.py
 ├── requirements.txt
-├── README.md
-├── .gitignore
+│
 ├── .streamlit/
-│   └── config.toml
+│   └── (currently empty in the repository)
+│
 ├── data/
 │   ├── credit_risk.csv
 │   ├── X_train_processed.csv
@@ -178,13 +234,16 @@ Explainable-Credit-Risk-Assessment-System/
 │   ├── shap_feature_importance.csv
 │   ├── shap_feature_importance.png
 │   └── shap_summary_plot.png
+│
 ├── models/
 │   ├── preprocessor.pkl
 │   ├── svm_model.pkl
 │   ├── knn_model.pkl
 │   ├── decision_tree_model.pkl
 │   └── lightgbm_model.pkl
+│
 ├── src/
+│   ├── __init__.py
 │   ├── preprocessing.py
 │   ├── train_svm.py
 │   ├── train_knn.py
@@ -193,8 +252,37 @@ Explainable-Credit-Risk-Assessment-System/
 │   ├── model_comparison.py
 │   ├── predict.py
 │   └── xai_explanation.py
+│
 └── tests/
+    └── (currently empty in the repository)
 ```
+
+## File Responsibilities
+
+| File / Directory | Purpose |
+|---|---|
+| `app.py` | Streamlit user interface and SVM inference |
+| `data/credit_risk.csv` | Original synthetic credit-risk dataset |
+| `data/X_train_processed.csv` | Preprocessed training features |
+| `data/X_test_processed.csv` | Preprocessed test features |
+| `data/y_train.csv` | Training target labels |
+| `data/y_test.csv` | Test target labels |
+| `data/shap_feature_importance.csv` | Calculated global SHAP importance values |
+| `data/*.png` | SHAP visualization outputs |
+| `models/preprocessor.pkl` | Saved preprocessing pipeline |
+| `models/svm_model.pkl` | Saved SVM model used by the app |
+| `models/knn_model.pkl` | Saved KNN model |
+| `models/decision_tree_model.pkl` | Saved Decision Tree model |
+| `models/lightgbm_model.pkl` | Saved LightGBM model |
+| `src/preprocessing.py` | Data splitting and preprocessing |
+| `src/train_svm.py` | SVM training and evaluation |
+| `src/train_knn.py` | KNN training and evaluation |
+| `src/train_decision_tree.py` | Decision Tree training and evaluation |
+| `src/train_lightgbm.py` | LightGBM training and evaluation |
+| `src/model_comparison.py` | Compares saved model performance |
+| `src/predict.py` | Command-line credit-risk prediction |
+| `src/xai_explanation.py` | SHAP analysis and visualization generation |
+| `requirements.txt` | Python dependencies |
 
 ## Run Locally
 
@@ -228,7 +316,7 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 4. Start the application
+### 4. Run the Streamlit application
 
 ```bash
 python -m streamlit run app.py
@@ -238,7 +326,7 @@ The application URL will be displayed by Streamlit in the terminal.
 
 ## Rebuild the Model Artifacts
 
-Run commands from the repository root. If the processed datasets or preprocessing configuration must be regenerated, run preprocessing before training:
+Run these commands from the repository root when you want to regenerate the processed data, trained models, model-comparison results, and SHAP outputs:
 
 ```bash
 python src/preprocessing.py
@@ -250,26 +338,28 @@ python src/model_comparison.py
 python src/xai_explanation.py
 ```
 
-The Streamlit app uses the saved SVM model and preprocessor. Retraining should be followed by checking that the saved artifacts are compatible and that the app runs successfully.
+After retraining, verify that the saved artifacts are compatible with `app.py` before deploying the application.
 
 ## Responsible Use and Limitations
 
-- **Small synthetic dataset:** 25 rows with only five held-out test examples.
-- **Unreliable performance estimates:** test metrics are illustrative and not statistically robust.
-- **Not for real decisions:** do not use this prototype for lending, underwriting, customer screening, or other consequential financial decisions.
-- **Probability interpretation:** model confidence is not a guarantee or necessarily a calibrated probability.
-- **Limited explainability:** SHAP output is global and based on synthetic test data; it is not applicant-specific and does not imply causation.
-- **Production requirements:** a real system would need a larger, documented and appropriately licensed dataset; robust validation; calibration; decision-threshold analysis; fairness and bias assessment; security and privacy controls; monitoring; and expert review.
+- **Synthetic dataset:** The current dataset contains only 25 records.
+- **Very small test set:** The 80/20 split leaves only five records for testing.
+- **Illustrative metrics:** Accuracy and other test metrics are not statistically reliable with this dataset size.
+- **Not for real lending:** The system should not be used for loan approval, underwriting, customer screening, or other consequential financial decisions.
+- **Probability interpretation:** SVM confidence output is not a guarantee of repayment and is not necessarily calibrated.
+- **Explainability scope:** Current SHAP analysis is global and based on synthetic test data rather than applicant-specific explanations.
+- **Production requirements:** A real credit-risk system would require a larger, documented and appropriately licensed dataset, robust validation, probability calibration, threshold analysis, fairness assessment, privacy and security controls, monitoring, and expert review.
 
 ## Potential Improvements
 
-- Use a larger, documented, appropriately licensed dataset
-- Add stratified cross-validation and more robust performance estimates
-- Evaluate ROC-AUC, PR-AUC, class-specific recall, and probability calibration
-- Add tests for preprocessing, inference, and the application interface
-- Develop applicant-level explanations with appropriate validation
-- Add model versioning, monitoring, and data-drift checks
-- Separate model predictions from configurable, independently validated decision rules
+- Replace the small synthetic dataset with a larger, documented, appropriately licensed dataset.
+- Add stratified cross-validation for more reliable model evaluation.
+- Add ROC-AUC, PR-AUC, calibration, and class-specific performance analysis.
+- Add automated tests for preprocessing and prediction.
+- Add applicant-level SHAP explanations.
+- Add model versioning, data-drift monitoring, and prediction monitoring.
+- Separate model predictions from independently validated business decision rules.
+- Improve the Streamlit dashboard with additional model-performance visualizations.
 
 ## Author
 
