@@ -13,37 +13,18 @@ A Streamlit-based machine learning application for assessing loan-default risk a
 
 **Live Demo:** https://harshaharshu09-explainable-credit-risk-assessment-sy-app-lbhfz0.streamlit.app/
 
-The deployed Streamlit application allows a user to enter applicant information and receive a model prediction, demonstration loan decision, prediction confidence, applicant summary, and global SHAP feature-importance visualization.
+The live Streamlit application accepts applicant and loan information, applies the saved preprocessing pipeline, generates an SVM prediction, displays a demonstration loan decision and model confidence, and presents global SHAP feature-importance information.
 
 ## Overview
 
-The system is designed as an end-to-end credit-risk machine learning workflow:
-
-1. Load the synthetic credit-risk dataset.
-2. Separate applicant features from the target variable (`default`).
-3. Split the data into training and test sets using a stratified 80/20 split.
-4. Identify numeric and categorical features.
-5. Standardize numeric features using `StandardScaler`.
-6. Convert categorical features into one-hot encoded features using `OneHotEncoder`.
-7. Save the fitted preprocessing pipeline for reuse during prediction.
-8. Train multiple machine learning models for comparison.
-9. Evaluate the models using classification metrics and a confusion matrix.
-10. Save the selected SVM model as a reusable model artifact.
-11. Run SHAP-based global feature-importance analysis on the processed test data.
-12. Save the SHAP feature-importance results and visualization.
-13. Load the saved preprocessor and SVM model in the Streamlit application.
-14. Accept new applicant details through the web interface.
-15. Apply the same preprocessing pipeline used during training.
-16. Generate the SVM prediction and probability output.
-17. Convert the predicted class into a demonstration loan decision.
-18. Display the result, confidence, applicant summary, and global model-importance information.
+The project demonstrates an end-to-end, explainable credit-risk assessment workflow. The system takes applicant information as input, prepares the data using a reusable preprocessing pipeline, trains and compares multiple machine learning models, evaluates their performance, selects the SVM model for application inference, and uses SHAP to provide global model-level explainability.
 
 ## Features
 
 - Interactive Streamlit interface for applicant and loan information
 - Reusable preprocessing pipeline
-- Numeric feature standardization
-- Categorical feature one-hot encoding
+- Numeric feature standardization with `StandardScaler`
+- Categorical feature encoding with `OneHotEncoder`
 - Binary default-risk prediction
 - SVM probability output presented as model confidence
 - Demonstration loan approval or rejection output
@@ -51,7 +32,7 @@ The system is designed as an end-to-end credit-risk machine learning workflow:
 - Accuracy, precision, recall, F1-score, and confusion matrix evaluation
 - SHAP-based global feature-importance analysis
 - Saved model and preprocessing artifacts for application inference
-- Public Streamlit deployment
+- Public Streamlit application
 
 ## Input Features
 
@@ -71,88 +52,208 @@ The synthetic dataset does not document a currency or an external data source. M
 
 ## End-to-End Workflow
 
-### Phase 1: Data Preparation
+The complete system works through the following sequence.
 
-The source data is stored in `data/credit_risk.csv`.
+### Step 1: Load the Dataset
 
-The preprocessing script performs the following operations:
+The project starts with the synthetic credit-risk dataset stored in `data/credit_risk.csv`.
 
 ```text
 credit_risk.csv
       |
       v
-Separate features (X) and target (y)
+Load dataset with Pandas
       |
       v
-Stratified 80/20 train-test split
-      |
-      +-------------------+
-      |                   |
-      v                   v
-Training data         Test data
-      |                   |
-      +---------+---------+
-                |
-                v
-Identify numeric and categorical columns
-                |
-        +-------+-------+
-        |               |
-        v               v
-Numeric features   Categorical features
-        |               |
-        v               v
-StandardScaler     OneHotEncoder
-        |               |
-        +-------+-------+
-                |
-                v
-        Processed feature matrix
-                |
-                v
-       Save preprocessor.pkl
+Inspect applicant features and target
 ```
 
-The fitted preprocessing object is saved as `models/preprocessor.pkl`. This ensures that new applicant data is transformed using the same rules learned from the training data.
+The target variable is `default`. The feature columns contain the applicant's financial, employment, loan, and housing information.
 
-### Phase 2: Model Training
+### Step 2: Separate Features and Target
 
-The processed training and test datasets are used to train and compare four models:
+The dataset is divided into:
 
 ```text
-Processed training data
+Dataset
+  |
+  +-----------------------------+
+  |                             |
+  v                             v
+Features (X)                 Target (y)
+Applicant information       default
+                             0 / 1
+```
+
+`X` contains the input features used by the models, while `y` contains the default label.
+
+### Step 3: Train-Test Split
+
+The data is divided into training and test sets using an 80/20 stratified split.
+
+```text
+Complete Dataset
+       |
+       v
+Stratified 80/20 Split
+       |
+       +----------------------+
+       |                      |
+       v                      v
+Training Set              Test Set
+80%                       20%
+       |                      |
+       |                      |
+       v                      v
+Used for training        Used for evaluation
+```
+
+Stratification keeps the class distribution consistent between the training and test portions as far as possible.
+
+### Step 4: Identify Feature Types
+
+The preprocessing pipeline separates the input columns into numeric and categorical features.
+
+```text
+Applicant Features
+       |
+       +-----------------------+
+       |                       |
+       v                       v
+Numeric Features         Categorical Features
+Age                      Loan Purpose
+Income                   Home Ownership
+Loan Amount
+Loan Term
+Credit Score
+Existing Debt
+Employment Years
+```
+
+### Step 5: Preprocess Numeric Features
+
+Numeric columns are standardized using `StandardScaler`.
+
+```text
+Numeric Features
+       |
+       v
+StandardScaler
+       |
+       v
+Scaled Numeric Features
+```
+
+This puts numeric variables on a comparable scale before they are passed to the machine learning models.
+
+### Step 6: Encode Categorical Features
+
+Categorical columns are converted into machine-readable numerical features using `OneHotEncoder`.
+
+```text
+Categorical Features
+       |
+       v
+OneHotEncoder
+       |
+       v
+One-Hot Encoded Features
+```
+
+The fitted preprocessing pipeline is saved as `models/preprocessor.pkl` so that exactly the same transformation can be reused when a new applicant is entered in the application.
+
+### Step 7: Generate the Processed Dataset
+
+The numeric and categorical preprocessing branches are combined into one processed feature matrix.
+
+```text
+Scaled Numeric Features
           |
-          +-------------------+-------------------+-------------------+
-          |                   |                   |                   |
-          v                   v                   v                   v
-        SVM                 KNN            Decision Tree          LightGBM
-          |                   |                   |                   |
-          +-------------------+-------------------+-------------------+
-                              |
-                              v
-                    Evaluate model performance
-                              |
-                              v
-             Accuracy / Precision / Recall / F1
-                              |
-                              v
-                       Confusion Matrix
+          +------------------+
+                             |
+One-Hot Encoded Features ----+
+                             |
+                             v
+                    Processed Feature Matrix
+                             |
+                             v
+                 Save preprocessing pipeline
+                    preprocessor.pkl
 ```
 
-The current Streamlit application loads the saved SVM model from `models/svm_model.pkl` for prediction. The other trained models are retained for comparison and experimentation.
+Processed training and test data are also stored in the `data/` directory for model training and evaluation.
 
-### Phase 3: Model Evaluation
+### Step 8: Train Multiple Machine Learning Models
 
-Each model is evaluated against the held-out test set. The project records classification metrics and a confusion matrix so that model behavior can be inspected beyond accuracy alone.
-
-Because the test set contains only five records, each individual prediction has a large effect on the reported metrics. Therefore, these results should be treated only as a demonstration of the workflow.
-
-### Phase 4: Explainable AI with SHAP
-
-The XAI workflow is executed separately from the live prediction interface:
+The processed training data is used to train four classification models.
 
 ```text
-Processed test data
+Processed Training Data
+          |
+          +-----------+-----------+-----------+
+          |           |           |           |
+          v           v           v           v
+        SVM         KNN     Decision Tree   LightGBM
+          |           |           |           |
+          +-----------+-----------+-----------+
+                      |
+                      v
+              Compare Model Results
+```
+
+The project trains separate model artifacts for SVM, KNN, Decision Tree, and LightGBM.
+
+### Step 9: Evaluate the Models
+
+The trained models are evaluated using the held-out test data.
+
+```text
+Test Data
+   |
+   v
+Trained Models
+   |
+   +-------------------------------+
+   |                               |
+   v                               v
+Predictions                   Performance Metrics
+                                      |
+                       +--------------+--------------+
+                       |              |              |
+                       v              v              v
+                    Accuracy      Precision       Recall
+                       |
+                       v
+                       F1-score
+                       |
+                       v
+                Confusion Matrix
+```
+
+The evaluation provides more information than accuracy alone and allows the model behavior to be inspected using multiple classification metrics.
+
+### Step 10: Select the Application Model
+
+The current Streamlit application uses the trained SVM model stored in `models/svm_model.pkl` for live inference.
+
+```text
+Trained SVM
+    |
+    v
+models/svm_model.pkl
+    |
+    v
+Loaded by Streamlit application
+```
+
+The other model artifacts remain available for comparison and experimentation.
+
+### Step 11: Generate SHAP Explainability Results
+
+SHAP is used to analyze global feature importance from the processed test data.
+
+```text
+Processed Test Data
         |
         v
 Load trained SVM model
@@ -166,81 +267,262 @@ Calculate SHAP values
         v
 Calculate mean absolute feature importance
         |
-        +-------------------------+
-        |                         |
-        v                         v
-Feature importance CSV       SHAP summary plot
-        |                         |
-        +------------+------------+
-                     |
-                     v
-          Stored in data/
+        +---------------------------+
+        |                           |
+        v                           v
+Feature Importance CSV        SHAP Summary Plot
+        |                           |
+        +-------------+-------------+
+                      |
+                      v
+                   data/
 ```
 
-The resulting global feature-importance file is saved as `data/shap_feature_importance.csv`, and the SHAP summary visualization is saved as `data/shap_summary_plot.png`.
+The generated feature-importance results are stored in `data/shap_feature_importance.csv`, while the SHAP visualization is stored in the `data/` directory.
 
 These are global explanations based on the project's synthetic test data. They are not applicant-specific explanations and should not be interpreted as causal effects.
 
-### Phase 5: Streamlit Application
+### Step 12: Start the Streamlit Application
 
-When the deployed application starts, it loads two saved artifacts:
+When `app.py` starts, it loads the saved preprocessing pipeline and SVM model.
 
 ```text
-models/preprocessor.pkl
-          |
-          v
-   Preprocessing pipeline
-
-models/svm_model.pkl
-          |
-          v
-      Trained SVM
+                    Streamlit Application
+                            |
+              +-------------+-------------+
+              |                           |
+              v                           v
+     preprocessor.pkl                 svm_model.pkl
+              |                           |
+              v                           v
+     Data transformation             Prediction
 ```
 
-The user then enters the applicant details through the Streamlit form.
+The application then displays the applicant input form.
 
-### Phase 6: Real-Time Prediction
+### Step 13: Enter Applicant Details
 
-For each submitted applicant, the application follows this sequence:
+The user provides the following information through the Streamlit interface:
 
 ```text
-User enters applicant details
-            |
-            v
-Create one-row applicant DataFrame
-            |
-            v
-Apply saved preprocessing pipeline
-            |
-            v
-Generate transformed feature matrix
-            |
-            v
-Pass features to trained SVM
-            |
-            +-----------------------+
-            |                       |
-            v                       v
-     Predicted class          Probability output
-            |                       |
-            |                       v
-            |              Prediction confidence
-            |                       |
-            +-----------+-----------+
+Age
+Monthly Income
+Loan Amount
+Loan Term
+Credit Score
+Existing Debt
+Employment Years
+Loan Purpose
+Home Ownership
+```
+
+The values are collected into a single-row Pandas DataFrame with the same feature structure expected by the preprocessing pipeline.
+
+### Step 14: Apply the Saved Preprocessing Pipeline
+
+The new applicant data is transformed using the already fitted `preprocessor.pkl`.
+
+```text
+New Applicant Data
+        |
+        v
+Pandas DataFrame
+        |
+        v
+Saved preprocessor.pkl
+        |
+        v
+Same numeric scaling
+        +
+Same categorical encoding
+        |
+        v
+Processed Applicant Features
+```
+
+This prevents the live application from using a different preprocessing method from the one used during model training.
+
+### Step 15: Generate the SVM Prediction
+
+The processed applicant features are passed to the saved SVM model.
+
+```text
+Processed Applicant Features
+             |
+             v
+        SVM Model
+             |
+             +----------------------+
+             |                      |
+             v                      v
+      Predicted Class        Probability Output
+             |                      |
+             |                      v
+             |              Prediction Confidence
+             |                      |
+             +----------+-----------+
                         |
                         v
-              Demonstration decision
-                        |
-              +---------+---------+
-              |                   |
-              v                   v
-       LOW RISK / NO DEFAULT    DEFAULT RISK
-              |                   |
-              v                   v
-            APPROVED             REJECTED
+                 Decision Mapping
 ```
 
-The application then displays the applicant summary and, when available, the global SHAP feature-importance visualization.
+The model predicts one of two classes:
+
+- `0` = No Default / Low Risk
+- `1` = Default Risk
+
+### Step 16: Convert Prediction into Demonstration Loan Decision
+
+The current application maps the predicted class to a demonstration decision.
+
+```text
+Predicted Class
+      |
+      +---------------------------+
+      |                           |
+      v                           v
+Class 0                      Class 1
+Low Risk / No Default       Default Risk
+      |                           |
+      v                           v
+APPROVED                    REJECTED
+```
+
+The approval or rejection displayed by the application is a demonstration output based on the model prediction. It is not a real lending decision.
+
+### Step 17: Display Prediction Confidence
+
+If probability output is available from the SVM model, the application displays the probability associated with the predicted class as **Prediction Confidence**.
+
+This value is a model output and should not be interpreted as a guaranteed probability of repayment or as a calibrated lending probability.
+
+### Step 18: Display Applicant Summary
+
+After prediction, the application displays the submitted applicant information in a structured summary.
+
+```text
+Applicant Input
+      |
+      v
+Applicant Summary
+      |
+      +-- Age
+      +-- Monthly Income
+      +-- Loan Amount
+      +-- Loan Term
+      +-- Credit Score
+      +-- Existing Debt
+      +-- Employment Years
+      +-- Loan Purpose
+      +-- Home Ownership
+```
+
+### Step 19: Display Global Model Explainability
+
+When the SHAP feature-importance file is available, the application loads `data/shap_feature_importance.csv` and displays the leading global feature-importance values as a chart.
+
+```text
+Saved SHAP Feature Importance
+             |
+             v
+      Load CSV in Streamlit
+             |
+             v
+       Select top features
+             |
+             v
+       Display bar chart
+```
+
+The chart explains which features were important to the model globally across the project's synthetic test data. It does not explain why one specific applicant received a particular prediction.
+
+### Complete System Flow
+
+```text
+                    CREDIT RISK ASSESSMENT SYSTEM
+                                  |
+                                  v
+                         Load credit_risk.csv
+                                  |
+                                  v
+                      Separate X and target y
+                                  |
+                                  v
+                       Stratified train/test split
+                                  |
+                                  v
+                      Identify feature data types
+                                  |
+                    +-------------+-------------+
+                    |                           |
+                    v                           v
+              Numeric Features            Categorical Features
+                    |                           |
+                    v                           v
+             StandardScaler               OneHotEncoder
+                    |                           |
+                    +-------------+-------------+
+                                  |
+                                  v
+                       Processed Feature Matrix
+                                  |
+                                  v
+                         Train ML Classifiers
+                                  |
+             +--------------------+--------------------+
+             |                    |                    |
+             v                    v                    v
+            SVM                  KNN            Decision Tree
+             |                    |                    |
+             +--------------------+--------------------+
+                                  |
+                                  v
+                               LightGBM
+                                  |
+                                  v
+                         Evaluate All Models
+                                  |
+                                  v
+                       Select SVM for Application
+                                  |
+                    +-------------+-------------+
+                    |                           |
+                    v                           v
+              Save SVM Model             Save Preprocessor
+                    |                           |
+                    +-------------+-------------+
+                                  |
+                                  v
+                         Start Streamlit App
+                                  |
+                                  v
+                      User enters applicant data
+                                  |
+                                  v
+                     Apply saved preprocessing
+                                  |
+                                  v
+                           SVM prediction
+                                  |
+                    +-------------+-------------+
+                    |                           |
+                    v                           v
+              Predicted class             Probability
+                    |                           |
+                    v                           v
+            Loan decision output        Model confidence
+                    |                           |
+                    +-------------+-------------+
+                                  |
+                                  v
+                         Applicant summary
+                                  |
+                                  v
+                      Global SHAP importance
+                                  |
+                                  v
+                         Final result display
+```
 
 ## Prediction Logic
 
@@ -351,14 +633,6 @@ python src/xai_explanation.py
 ```
 
 Run preprocessing before retraining models if the processed datasets or preprocessing configuration need to be regenerated.
-
-## Deployment
-
-The application is deployed using Streamlit Community Cloud from the `main` branch with `app.py` as the application entry point.
-
-**Live Application:** https://harshaharshu09-explainable-credit-risk-assessment-sy-app-lbhfz0.streamlit.app/
-
-For a new deployment, select the repository `harshaharshu09/Explainable-Credit-Risk-Assessment-System`, branch `main`, and file path `app.py`. Installable Python dependencies are provided in `requirements.txt`.
 
 ## Dependencies
 
