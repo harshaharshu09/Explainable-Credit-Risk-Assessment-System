@@ -1,22 +1,16 @@
 # Explainable Credit Risk Assessment System
 
-An interactive **machine-learning based credit risk assessment application** that predicts default risk, provides a loan decision for demonstration purposes, and presents model confidence and global SHAP feature importance through a Streamlit interface.
-
-[![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
-[![Scikit-learn](https://img.shields.io/badge/ML-scikit--learn-F7931E?logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
-[![SHAP](https://img.shields.io/badge/XAI-SHAP-6236FF)](https://shap.readthedocs.io/)
-[![LightGBM](https://img.shields.io/badge/Model-LightGBM-9ACD32)](https://lightgbm.readthedocs.io/)
+An interactive machine-learning based credit risk assessment application that predicts default risk, provides a loan decision for demonstration purposes, and presents model confidence and global SHAP feature importance through a Streamlit interface.
 
 > **Educational prototype:** The project uses a small synthetic dataset of 25 records, with only five records in the held-out test set. Results are illustrative and are not reliable estimates of real-world lending performance. This application must not be used for actual lending, underwriting, or financial decisions.
 
-## 🚀 Live Demo
+## Live Demo
 
-**Try the application:** [Explainable Credit Risk Assessment System](https://harshaharshu09-explainable-credit-risk-assessment-sy-app-lbhfz0.streamlit.app/)
+**Application:** [Explainable Credit Risk Assessment System](https://harshaharshu09-explainable-credit-risk-assessment-sy-app-lbhfz0.streamlit.app/)
 
-Enter applicant details in the web interface and click **Assess Credit Risk** to see the prediction, demonstration loan decision, confidence output, applicant summary, and global SHAP feature-importance chart.
+The live application allows users to enter applicant details and view the predicted credit-risk class, demonstration loan decision, prediction confidence, applicant summary, and global SHAP feature-importance analysis.
 
-## 📌 Project Overview
+## Project Overview
 
 Credit risk assessment is the process of estimating whether a borrower is likely to default on a loan. This project demonstrates a complete machine-learning workflow for a simplified credit-risk use case:
 
@@ -29,11 +23,11 @@ Credit risk assessment is the process of estimating whether a borrower is likely
 7. Show model confidence when probability output is available.
 8. Present global SHAP feature importance for model interpretability.
 
-## ✨ Key Features
+## Key Features
 
 - Interactive Streamlit web application
 - Applicant-level credit-risk prediction
-- Demonstration **Approved / Rejected** loan decision
+- Demonstration Approved / Rejected loan decision
 - Saved preprocessing pipeline for consistent inference
 - Numerical feature scaling
 - Categorical one-hot encoding
@@ -43,18 +37,18 @@ Credit risk assessment is the process of estimating whether a borrower is likely
 - Global SHAP feature-importance analysis
 - Reproducible project structure with separate data, model, source, and test folders
 
-## 🧠 Machine Learning Models
+## Machine Learning Models
 
 | Model | Purpose | Used by Live App |
 |---|---|---|
-| **Support Vector Machine (SVM)** | Primary classification model | ✅ Yes |
-| **K-Nearest Neighbors (KNN)** | Model comparison | No |
-| **Decision Tree** | Model comparison | No |
-| **LightGBM** | Model comparison | No |
+| Support Vector Machine (SVM) | Primary classification model | Yes |
+| K-Nearest Neighbors (KNN) | Model comparison | No |
+| Decision Tree | Model comparison | No |
+| LightGBM | Model comparison | No |
 
 The Streamlit application loads the saved SVM model and preprocessing pipeline from the `models/` directory.
 
-## 📊 Input Features
+## Input Features
 
 | Feature | Description |
 |---|---|
@@ -70,49 +64,17 @@ The Streamlit application loads the saved SVM model and preprocessing pipeline f
 
 The project dataset is synthetic and does not represent real borrower records or a verified external financial dataset. Monetary values are demonstration values and no currency is assumed.
 
-## 🔄 Application Workflow
-
-```text
-                 Applicant Details
-                        │
-                        ▼
-             Saved Preprocessing Pipeline
-             ┌──────────────────────────┐
-             │ Numerical Scaling        │
-             │ Categorical Encoding     │
-             └──────────────────────────┘
-                        │
-                        ▼
-                  Trained SVM
-                        │
-                        ▼
-              Default-Risk Prediction
-                        │
-              ┌─────────┴─────────┐
-              ▼                   ▼
-          Low Risk            Default Risk
-              │                   │
-              ▼                   ▼
-           Approved             Rejected
-              │
-              ▼
-       Confidence + Summary
-              │
-              ▼
-       Global SHAP Importance
-```
-
-## 🔍 Explainable AI with SHAP
+## Explainable AI with SHAP
 
 The project includes a dedicated SHAP analysis script in `src/xai_explanation.py`.
 
 SHAP is used to estimate the contribution of input features to model predictions and to produce a global feature-importance output. The generated artifacts are stored in the `data/` directory.
 
-The current Streamlit interface displays the **global** SHAP feature importance chart. It is not an applicant-specific explanation for an individual prediction.
+The current Streamlit interface displays the global SHAP feature importance chart. It is not an applicant-specific explanation for an individual prediction.
 
 Because the underlying test set contains only five synthetic records, SHAP rankings should be treated as educational examples rather than stable real-world evidence.
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```text
 Explainable-Credit-Risk-Assessment-System/
@@ -152,19 +114,19 @@ Explainable-Credit-Risk-Assessment-System/
     └── __init__.py
 ```
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-- **Python** — application and machine-learning development
-- **Streamlit** — interactive web interface
-- **Pandas / NumPy** — data processing
-- **Scikit-learn** — preprocessing, SVM, KNN, Decision Tree, and evaluation
-- **LightGBM** — gradient-boosting model comparison
-- **SHAP** — model explainability
-- **Joblib** — model and preprocessing artifact persistence
-- **Matplotlib** — visualization
-- **Git & GitHub** — version control and project hosting
+- Python
+- Streamlit
+- Pandas / NumPy
+- Scikit-learn
+- LightGBM
+- SHAP
+- Joblib
+- Matplotlib
+- Git & GitHub
 
-## ▶️ Run Locally
+## Run Locally
 
 ### 1. Clone the repository
 
@@ -201,7 +163,7 @@ The terminal will provide a local address, normally:
 http://localhost:8501
 ```
 
-## 🧪 Run the Machine Learning Pipeline
+## Run the Machine Learning Pipeline
 
 Run these commands from the project root when you want to regenerate the processed data, models, evaluation results, or SHAP artifacts.
 
@@ -217,7 +179,7 @@ python src/xai_explanation.py
 
 > If the saved model artifacts are regenerated, keep the training environment and deployment environment compatible with the installed dependency versions.
 
-## 📈 Model Evaluation
+## Model Evaluation
 
 The repository contains model-comparison code that evaluates the trained classifiers using common classification metrics, including:
 
@@ -227,9 +189,9 @@ The repository contains model-comparison code that evaluates the trained classif
 - F1-score
 - Confusion matrix
 
-Earlier local experiments reported high scores for some models on the five-row test set. These values should **not** be interpreted as production-level performance because the evaluation sample is extremely small and synthetic. A single test example changes accuracy by 20 percentage points.
+Earlier local experiments reported high scores for some models on the five-row test set. These values should not be interpreted as production-level performance because the evaluation sample is extremely small and synthetic. A single test example changes accuracy by 20 percentage points.
 
-## ⚠️ Limitations & Responsible Use
+## Limitations and Responsible Use
 
 This project is intentionally a learning and portfolio prototype.
 
@@ -244,7 +206,7 @@ This project is intentionally a learning and portfolio prototype.
 
 For a production-grade credit-risk system, the workflow would require a properly sourced and licensed dataset, stronger validation, cross-validation, class-imbalance analysis, threshold tuning, calibration, fairness testing, monitoring, security controls, and qualified domain/regulatory review.
 
-## 🚀 Future Enhancements
+## Future Enhancements
 
 - Add a larger, documented real-world or appropriately licensed dataset
 - Use stratified cross-validation and stronger statistical evaluation
@@ -257,7 +219,7 @@ For a production-grade credit-risk system, the workflow would require a properly
 - Add model monitoring and drift detection
 - Improve the UI with risk-factor summaries and visual dashboards
 
-## 👨‍💻 Author
+## Author
 
 **Harshavardhan Kumar**
 
@@ -267,4 +229,4 @@ For a production-grade credit-risk system, the workflow would require a properly
 
 ---
 
-**Built for learning, experimentation, and demonstrating explainable machine learning in a credit-risk use case.**
+Built for learning, experimentation, and demonstrating explainable machine learning in a credit-risk use case.
