@@ -6,7 +6,7 @@ An end-to-end machine learning project for credit-default risk classification, m
   <img src="https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white" alt="Python" />
   <img src="https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white" alt="Streamlit" />
   <img src="https://img.shields.io/badge/Machine%20Learning-scikit--learn-orange" alt="Machine Learning" />
-  <img src="https://img.shields.io/badge/Explainable%20AI-SHAP-6236FF" alt="SHAP" />
+  <img src="https://img.shields.io/badge/Explainable%20AI-SHAP-6236FF" alt="Explainable AI" />
   <img src="https://img.shields.io/badge/Status-Educational%20Prototype-lightgrey" alt="Educational prototype" />
 </p>
 
@@ -87,61 +87,62 @@ The repository uses synthetic data, and the monetary fields do not represent a v
 ```text
                          CREDIT RISK ASSESSMENT SYSTEM
 
-        Synthetic Credit-Risk Dataset
-                    |
-                    v
-          Feature / Target Split
-                    |
-                    v
-          Stratified Train/Test Split
-                    |
-                    v
-            Data Preprocessing
-             /              \
-            v                v
-   Scale Numeric Data    Encode Categories
-             \              /
-              v            v
-             Processed Features
-                    |
-                    v
-       +-----------------------------+
-       |      Model Training         |
-       +-----------------------------+
-          |       |        |       |
-          v       v        v       v
-         SVM     KNN   Decision   LightGBM
-                         Tree
-          \       |        |       /
-           \      |        |      /
-            +-----+--------+-----+
-                    |
-                    v
-             Model Comparison
-                    |
-                    v
-           Save Model Artifacts
-                    |
-                    v
-             Streamlit Application
-                    |
-                    v
-            Applicant Input Form
-                    |
-                    v
-           Preprocess New Input
-                    |
-                    v
-               SVM Prediction
-                 /       \
-                v         v
-        Risk Classification  Probability
-                |            Output
-                v
-       Demonstration Decision
-                |
-                v
-        Global SHAP Explanation
+                              APPLICANT
+                                  |
+                                  v
+                       Enter Applicant Details
+                                  |
+                                  v
+                         Input Feature Validation
+                                  |
+                                  v
+                          Data Preprocessing
+                                  |
+                    +-------------+-------------+
+                    |                           |
+                    v                           v
+             Numerical Features        Categorical Features
+                    |                           |
+                 Scaling                One-Hot Encoding
+                    |                           |
+                    +-------------+-------------+
+                                  |
+                                  v
+                        Processed Feature Data
+                                  |
+                                  v
+                           Trained SVM Model
+                                  |
+                                  v
+                        Credit Risk Prediction
+                                  |
+                    +-------------+-------------+
+                    |                           |
+                    v                           v
+                No Default                  Default
+                    |                           |
+                    v                           v
+                 APPROVED                    REJECTED
+                    |                           |
+                    +-------------+-------------+
+                                  |
+                                  v
+                       Prediction Confidence
+                                  |
+                                  v
+                       Explainable AI (SHAP)
+                                  |
+                                  v
+                         Feature Importance
+                                  |
+                                  v
+                    Key Risk-Contributing Factors
+                                  |
+                                  v
+                         Streamlit Dashboard
+                                  |
+                                  v
+                            FINAL RESULT
 ```
 
 ### Workflow Details
@@ -222,9 +223,6 @@ Explainable-Credit-Risk-Assessment-System/
 ├── app.py
 ├── requirements.txt
 │
-├── .streamlit/
-│   └── (currently empty in the repository)
-│
 ├── data/
 │   ├── credit_risk.csv
 │   ├── X_train_processed.csv
@@ -242,19 +240,16 @@ Explainable-Credit-Risk-Assessment-System/
 │   ├── decision_tree_model.pkl
 │   └── lightgbm_model.pkl
 │
-├── src/
-│   ├── __init__.py
-│   ├── preprocessing.py
-│   ├── train_svm.py
-│   ├── train_knn.py
-│   ├── train_decision_tree.py
-│   ├── train_lightgbm.py
-│   ├── model_comparison.py
-│   ├── predict.py
-│   └── xai_explanation.py
-│
-└── tests/
-    └── (currently empty in the repository)
+└── src/
+    ├── __init__.py
+    ├── preprocessing.py
+    ├── train_svm.py
+    ├── train_knn.py
+    ├── train_decision_tree.py
+    ├── train_lightgbm.py
+    ├── model_comparison.py
+    ├── predict.py
+    └── xai_explanation.py
 ```
 
 ## File Responsibilities
