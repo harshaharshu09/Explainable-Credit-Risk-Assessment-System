@@ -1,0 +1,16 @@
+Feature,Importance
+income,0.09
+loan_amount,0.081
+credit_score,0.07
+home_ownership_Rent,0.056999999999999995
+employment_years,0.053000000000000005
+age,0.045
+loan_term,0.044
+existing_debt,0.024999999999999998
+home_ownership_Own,0.01
+loan_purpose_Business,0.0030000000000000005
+loan_purpose_Personal,0.0019999999999999996
+loan_purpose_Home,0.0
+loan_purpose_Education,0.0
+loan_purpose_Auto,0.0
+home_ownership_Mortgage,0.0
