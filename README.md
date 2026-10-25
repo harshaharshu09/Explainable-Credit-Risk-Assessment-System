@@ -234,7 +234,7 @@ pip install -r requirements.txt
 python -m streamlit run app.py
 ```
 
-Open the local URL shown in the terminal (usually [http://localhost:8501](http://localhost:8501)).
+The application URL will be displayed by Streamlit in the terminal.
 
 ## Rebuild the Model Artifacts
 
