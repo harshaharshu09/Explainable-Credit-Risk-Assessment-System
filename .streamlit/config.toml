@@ -1,0 +1,4 @@
+# Streamlit Community Cloud configuration
+[server]
+headless = true
+port = 8501
