@@ -9,7 +9,7 @@ print("        EXPLAINABLE CREDIT RISK ASSESSMENT")
 print("=" * 60)
 
 # Load processed test data
-X_test = pd.read_csv("data/x_test_processed.csv")
+X_test = pd.read_csv("data/X_test_processed.csv")
 
 print("\nTest data loaded successfully")
 print("Test data shape:", X_test.shape)
