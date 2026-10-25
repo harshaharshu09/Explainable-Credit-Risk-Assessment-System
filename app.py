@@ -8,7 +8,7 @@ MODEL_PATH = ROOT / "models" / "svm_model.pkl"
 PREPROCESSOR_PATH = ROOT / "models" / "preprocessor.pkl"
 IMPORTANCE_PATH = ROOT / "data" / "shap_feature_importance.csv"
 
-st.set_page_config(page_title="Explainable Credit Risk Assessment", page_icon="💳", layout="wide")
+st.set_page_config(page_title="Explainable Credit Risk Assessment", layout="wide")
 
 st.markdown("""
 <style>
