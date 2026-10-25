@@ -7,35 +7,33 @@ A Streamlit-based machine-learning prototype for exploring loan-default risk and
 [![ML](https://img.shields.io/badge/ML-scikit--learn%20%7C%20LightGBM-orange)](https://scikit-learn.org/)
 [![Explainability](https://img.shields.io/badge/XAI-SHAP-6236FF)](https://shap.readthedocs.io/)
 
-> **Prototype / educational project.** The repository currently uses a small, manually created synthetic dataset (25 rows). Its test set contains only five examples, so reported scores are illustrative and are not reliable estimates of real-world performance. This app must not be used for actual lending decisions.
+> **Prototype / educational project.** This repository uses a manually created synthetic dataset containing 25 rows. The held-out test set has only five rows, so results are illustrative, not reliable estimates of real-world performance. Do not use this prototype for actual lending decisions.
 
 ## Overview
 
-The application accepts applicant and loan details, applies the saved preprocessing pipeline, and uses a trained Support Vector Machine (SVM) model to produce a binary default-risk prediction. The repository also includes scripts for training and comparing a Decision Tree, K-Nearest Neighbors (KNN), LightGBM, and SVM, plus a separate SHAP feature-importance analysis.
+The application collects applicant and loan details, applies a saved preprocessing pipeline, and uses a trained Support Vector Machine (SVM) to predict the dataset label `default`. The repository also contains training scripts for a Decision Tree, K-Nearest Neighbors (KNN), LightGBM, and SVM, plus a separate SHAP feature-importance analysis.
 
 ## Features
 
-- Interactive Streamlit interface for applicant details
+- Streamlit interface for applicant information
 - Numeric scaling and categorical one-hot encoding
 - Binary prediction: `0 = no default`, `1 = default`
-- Demonstration loan-decision label based on the predicted class
-- SVM probability output shown as model confidence (not calibrated probability of repayment)
-- Training scripts for SVM, KNN, Decision Tree, and LightGBM
-- Test-set metrics including accuracy, precision, recall, F1-score, and confusion matrix
-- SHAP-based global feature-importance output and saved plots
+- Demonstration decision label derived from the predicted class
+- SVM probability output presented as model confidence (not a calibrated repayment probability)
+- Model training and comparison scripts
+- Accuracy, precision, recall, F1-score, and confusion matrix reports
+- SHAP-based global feature-importance output and plots
 
-## Application Preview
+## Application
 
-The app is built with Streamlit. Run it locally using the instructions below. A hosted demo link will be added here after deployment is published and verified.
+**Live demo:** Not published yet. Deployment instructions are provided below; add the hosted URL here after it is successfully published.
 
-**Live demo:** _Not published yet._
-
-## Input Features
+## Inputs
 
 | Feature | Description |
 |---|---|
 | Age | Applicant age in years |
-| Monthly income | Applicant income value used by the sample dataset |
+| Monthly income | Income value used by the sample dataset |
 | Loan amount | Requested loan amount |
 | Loan term | Duration in months |
 | Credit score | Credit-score value |
@@ -44,7 +42,7 @@ The app is built with Streamlit. Run it locally using the instructions below. A 
 | Loan purpose | Personal, Home, Business, Education, or Auto |
 | Home ownership | Rent, Own, or Mortgage |
 
-The sample data does not document currency or a data-collection source. Treat numeric monetary fields as demonstration values, not validated financial records.
+The synthetic data does not document a currency or an external data source. Monetary values are demonstration values, not verified financial records.
 
 ## Models
 
@@ -55,11 +53,11 @@ The sample data does not document currency or a data-collection source. Treat nu
 | Decision Tree | Comparison model |
 | LightGBM | Comparison model |
 
-Metrics vary with the small synthetic dataset. Previous local runs reported 1.00 test accuracy for SVM, KNN, and Decision Tree and 0.60 for LightGBM, using just five test rows. These are not comparable to a properly validated production model and should not be presented as evidence of high real-world accuracy.
+Previous local runs reported 1.00 test accuracy for SVM, KNN, and Decision Tree and 0.60 for LightGBM on just five test rows. These scores are highly uncertain; a single test example changes accuracy by 20 percentage points. Do not present these results as evidence of real-world predictive performance.
 
-## Explainability
+## Explainable AI
 
-The `src/xai_explanation.py` script calculates SHAP-based feature importance on the tiny held-out sample and writes outputs under `data/`. This is a demonstration of the XAI workflow only. With five test samples and synthetic data, feature rankings are unstable and do not establish causal effects.
+The `src/xai_explanation.py` script uses SHAP to estimate global feature importance on the tiny held-out sample and saves output files in `data/`. With only five test examples and synthetic data, rankings can be unstable and should not be interpreted as causal effects.
 
 ## Workflow
 
@@ -71,7 +69,7 @@ Saved preprocessing pipeline
 (scaling + one-hot encoding)
        |
        v
-Trained SVM model
+Trained SVM
        |
        v
 Predicted class + model confidence
@@ -80,7 +78,7 @@ Predicted class + model confidence
 Demonstration decision label
 ```
 
-The SHAP analysis runs as a separate script:
+The global SHAP analysis runs separately:
 
 ```text
 Processed test data + trained SVM
@@ -100,6 +98,8 @@ Feature-importance CSV and plot
 ├── README.md
 ├── requirements.txt
 ├── .gitignore
+├── .streamlit/
+│   └── config.toml
 ├── data/
 │   ├── credit_risk.csv
 │   ├── X_train_processed.csv
@@ -128,14 +128,14 @@ Feature-importance CSV and plot
 
 ## Run Locally
 
-### 1. Clone the repository
+### 1. Clone
 
 ```bash
 git clone https://github.com/harshaharshu09/Explainable-Credit-Risk-Assessment-System.git
 cd Explainable-Credit-Risk-Assessment-System
 ```
 
-### 2. Create and activate a virtual environment
+### 2. Create and activate an environment
 
 **Windows PowerShell:**
 
@@ -144,24 +144,24 @@ python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-### 3. Install requirements
+### 3. Install dependencies
 
 ```bash
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 4. Start the app
+### 4. Launch the app
 
 ```bash
 python -m streamlit run app.py
 ```
 
-Streamlit will print a local URL (typically `http://localhost:8501`).
+Streamlit prints a local URL, typically `http://localhost:8501`.
 
-### Run preprocessing, training, or SHAP separately
+### Run analysis scripts
 
-Execute these from the repository root:
+Run from the project root. Re-run preprocessing before retraining models if regenerating artifacts.
 
 ```bash
 python src/preprocessing.py
@@ -173,29 +173,38 @@ python src/model_comparison.py
 python src/xai_explanation.py
 ```
 
-Run preprocessing before the training scripts if regenerating artifacts. Training scripts may overwrite saved model files.
+## Deploy on Streamlit Community Cloud
+
+1. Open [Streamlit Community Cloud](https://share.streamlit.io/).
+2. Sign in and connect your GitHub account, if asked.
+3. Select **Create app** and choose repository `harshaharshu09/Explainable-Credit-Risk-Assessment-System`.
+4. Select branch `main` and main file path `app.py`.
+5. Select **Deploy** and wait for the build logs to report success.
+6. Open the resulting public app URL, test a sample input, and then replace the “Live demo” line above with that URL.
+
+The repository includes a Streamlit configuration and dependency list. Hosting still requires the repository owner to authorize and launch the deployment. If the build fails, inspect the deployment logs before changing dependency versions.
 
 ## Dependencies
 
-Runtime and analysis dependencies are listed in `requirements.txt`: Streamlit, Pandas, NumPy, scikit-learn, Joblib, SHAP, Matplotlib, and LightGBM.
+Dependencies are listed in `requirements.txt`: Streamlit, Pandas, NumPy, scikit-learn, Joblib, SHAP, Matplotlib, and LightGBM.
 
 ## Limitations and Responsible Use
 
-- The included dataset is synthetic and contains only 25 records.
-- The held-out test set has five rows; a single example changes accuracy by 20 percentage points.
-- A predicted class and SVM `predict_proba` value are not a formal creditworthiness assessment or calibrated lending probability.
-- The approval/rejection wording is a demonstration label, not a financial recommendation.
-- The sample dataset and current results are not suitable for lending, underwriting, customer screening, or other consequential decisions.
-- Before any realistic evaluation, use an appropriate, documented dataset; review data rights and privacy; check class balance and leakage; apply cross-validation and threshold analysis; test calibration and fairness; and have qualified stakeholders validate the system.
+- Dataset: 25 synthetic records, not real borrower data.
+- Test set: five rows; reported metrics are too uncertain to support production claims.
+- `predict_proba` for the SVM is not necessarily calibrated and should not be described as a true probability that a borrower will repay.
+- The app’s “approved” or “rejected” label is a demonstration output, not a financial recommendation.
+- The prototype is not suitable for lending, underwriting, customer screening, or other consequential decisions.
+- Before any realistic evaluation, use an appropriately licensed and documented dataset; inspect class balance and potential leakage; use cross-validation and threshold analysis; evaluate default-class recall, ROC-AUC and PR-AUC; assess calibration and fairness; and obtain qualified review.
 
 ## Future Work
 
 - Evaluate on a larger, documented credit-risk dataset
-- Add stratified cross-validation and confidence intervals
-- Compare precision, recall, F1, ROC-AUC, and PR-AUC, with special attention to default-class recall
-- Add a reproducible training pipeline and automated tests
-- Add per-applicant explanations to the Streamlit interface
-- Publish a hosted demo and link it here after verification
+- Add stratified cross-validation and uncertainty intervals
+- Compare metrics with special attention to default-class recall
+- Add automated tests and a reproducible training pipeline
+- Add individual prediction explanations to the Streamlit interface
+- Publish and verify a hosted demo
 
 ## Author
 
@@ -204,4 +213,4 @@ GitHub: [@harshaharshu09](https://github.com/harshaharshu09)
 
 ---
 
-If you use or extend this project, please keep its synthetic-data and prototype limitations visible.
+Keep the synthetic-data and prototype limitations visible when presenting or extending this project.
