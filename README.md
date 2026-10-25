@@ -2,7 +2,7 @@
 
 A Streamlit-based machine-learning prototype for exploring loan-default risk and model explainability.
 
-[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/App-Streamlit-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
 [![ML](https://img.shields.io/badge/ML-scikit--learn%20%7C%20LightGBM-orange)](https://scikit-learn.org/)
 [![Explainability](https://img.shields.io/badge/XAI-SHAP-6236FF)](https://shap.readthedocs.io/)
@@ -97,6 +97,7 @@ Feature-importance CSV and plot
 ├── app.py
 ├── README.md
 ├── requirements.txt
+├── runtime.txt
 ├── .gitignore
 ├── .streamlit/
 │   └── config.toml
@@ -180,9 +181,9 @@ python src/xai_explanation.py
 3. Select **Create app** and choose repository `harshaharshu09/Explainable-Credit-Risk-Assessment-System`.
 4. Select branch `main` and main file path `app.py`.
 5. Select **Deploy** and wait for the build logs to report success.
-6. Open the resulting public app URL, test a sample input, and then replace the “Live demo” line above with that URL.
+6. Open the resulting public app URL and test an assessment. Add that verified URL to the **Live demo** line above.
 
-The repository includes a Streamlit configuration and dependency list. Hosting still requires the repository owner to authorize and launch the deployment. If the build fails, inspect the deployment logs before changing dependency versions.
+The repository includes a dependency list and Python 3.11 runtime file. Hosting still requires the repository owner to authorize and launch the deployment. If the build fails, inspect deployment logs before changing dependencies.
 
 ## Dependencies
 
@@ -192,10 +193,10 @@ Dependencies are listed in `requirements.txt`: Streamlit, Pandas, NumPy, scikit-
 
 - Dataset: 25 synthetic records, not real borrower data.
 - Test set: five rows; reported metrics are too uncertain to support production claims.
-- `predict_proba` for the SVM is not necessarily calibrated and should not be described as a true probability that a borrower will repay.
-- The app’s “approved” or “rejected” label is a demonstration output, not a financial recommendation.
+- SVM `predict_proba` output is not necessarily calibrated and should not be described as the true probability that a borrower will repay.
+- The app's “approved” or “rejected” label is a demonstration output, not a financial recommendation.
 - The prototype is not suitable for lending, underwriting, customer screening, or other consequential decisions.
-- Before any realistic evaluation, use an appropriately licensed and documented dataset; inspect class balance and potential leakage; use cross-validation and threshold analysis; evaluate default-class recall, ROC-AUC and PR-AUC; assess calibration and fairness; and obtain qualified review.
+- Before realistic evaluation, use an appropriately licensed and documented dataset; inspect class balance and potential leakage; use cross-validation and threshold analysis; evaluate default-class recall, ROC-AUC and PR-AUC; assess calibration and fairness; and obtain qualified review.
 
 ## Future Work
 
